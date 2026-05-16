@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 # Copyright 2026, Darrin C. Edwards, darrin.c.edwards@gmail.com.
-# Free to use and redistribute.  No warantee for any purpose.
+# Free to use and redistribute.  No warranty for any purpose.
 # If a modified copy is distributed, please modify the name of the file and include author information here.
 
 # Bisection is a well-known tool for locating the commit within a linear
