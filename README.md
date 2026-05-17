@@ -61,7 +61,7 @@ be slim, just as it would be in performing linear bisection on a set of two or t
 or so branches, though, the "log<sub>2</sub>" advantage should start to become noticeable (as in a linear search
 on a set of ten or more commits).
 
-Typical environments include:
+Typical environments might include:
 
 - internal service-pack integration branches
 - monorepos
