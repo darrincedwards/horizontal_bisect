@@ -70,6 +70,19 @@ Typical environments include:
 - release stabilization branches
 
 
+## Current assumptions / limitations
+
+- The integration branch was created via an octopus merge
+- Component branches are independently testable
+- The defect is reproducible in automated or repeatable testing
+
+The first of these is planned to be addressed in a future release.
+The others correspond to similar assumptions of linear bisection
+(each commit represent a state that can be tested for exercising
+the bug or not, as opposed to an exception thrown before the bug
+location).
+
+
 ## Overview
 
 The program is run iteratively, roughly similar to an interactive
