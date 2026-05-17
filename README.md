@@ -24,6 +24,25 @@ particular defect was introduced.  That is, it has the same defect
 isolation purpose as `git bisect`, but across a set of branches rather
 than along a linear branch.
 
+That is, traditional bisection (e.g. `git-bisect`, or a manual search based on it)
+searches for the commit containing a defect along a linear history:
+```text
+A -- B -- C -- D -- E -- F
+               ^
+         defect introduced here
+```
+
+Horizontal bisection, by contrast, searches for the branch containing a new
+branch out of an integration of several such branches:
+```text
+          integration
+         /     |    \
+        /      |     \
+      feat1  feat2  feat3
+               ^
+       defect introduced here
+```
+
 
 ## Overview
 
