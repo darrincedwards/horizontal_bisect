@@ -74,19 +74,22 @@ Typical environments include:
 
 The program is run iteratively, roughly similar to an interactive
 rebase in git.  The first time it is run, it needs two arguments, the
-"merged" branch being bisected, and the "base" branch on which the
-components of the merged branch were based (usually the preceding
-integrated commit in the development branch, or a previous "service
-pack", etc.).  After that it is run with no arguments, getting the
-information from the control file horizontal_bisect_control.txt.
+"merged" branch being bisected, and the "base" branch from which the
+components of the merged branch diverged (usually the current version
+of the development branch that the integration branch under
+examination will be merged into; or a previous "service pack", etc.).
+After that it is run with no arguments, getting the information from
+the control file horizontal_bisect_control.txt.
 
-Each time it is run, the program selects the next appropriate subset
-of the component branches for testing, constructs a new branch merging
-this subset of branches together, and appends the test branch name to
-the control file.  (If files were modified that require an extra step,
-like recompilation, a message to that effect is generated.)  After
-running the test branch, the user then edits the control file, placing
-a "p" or "pass" in front of the test branch name if the defect is not
+Each time it is run, the program
+- selects another subset of the component branches for testing
+- creates a temporary integration ("test") branch merging this subset of branches together
+- and appends the new test branch name to the control file.
+
+(If files were modified that require an extra step, like
+recompilation, a message to that effect is generated.)  After running
+the test branch, the user then edits the control file, placing a "p"
+or "pass" in front of the test branch name if the defect is not
 exhibited, and "f" or "fail" if it is.  (The test result indicators
 are not case sensitive.)
 
