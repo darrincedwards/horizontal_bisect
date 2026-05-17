@@ -130,8 +130,8 @@ looks like:
 | |/
 * / b326045 (t001-add-func1) func1
 |/
-* c1aa866 func stubs
-* 0d00b09 (master) initial commit
+* c1aa866 (development) func stubs
+* 0d00b09 (main) initial commit
 ```
 
 A defect is found in running sp_a.  Which branch introduced it?
