@@ -101,9 +101,9 @@ Each time it is run, the program
 
 (If files were modified that require an extra step, like
 recompilation, a message to that effect is generated.)  After running
-the test branch, the user then edits the control file, placing a "p"
-or "pass" in front of the test branch name if the defect is not
-exhibited, and "f" or "fail" if it is.  (The test result indicators
+the test branch, the user then edits the control file, placing a `p`
+or `pass` in front of the test branch name if the defect is not
+exhibited, and `f` or `fail` if it is.  (The test result indicators
 are not case sensitive.)
 
 Eventually such a test branch will be constructed with only one of the
@@ -144,7 +144,7 @@ This will create a branch sp_a_BISECT_0_1 to be tested, merging t001-add-func1 a
 It will also generate a file horizontal_bisect_control.txt, the last line of which
 will be a line with the test branch name sp_a_BISECT_0_1.
 
-After testing, that file is edited, and "pass" or "fail" (or just "p" or "f") are added to the
+After testing, that file is edited, and `pass` or `fail` (or just `p` or `f`) are added to the
 front of the line with the branch name.  Suppose this branch does fail the test; then the
 horizontal_bisect_control.txt should, after you mark it, look like:
 
