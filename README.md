@@ -6,6 +6,8 @@
   - README.md
 - Copyright: see copyright notice in horizontal_bisect.pl
 
+Contributors: Please clone the repo and check out your new branch from *development*.
+
 ## Background
 
 Bisection is a well-known tool for locating the commit within a linear
