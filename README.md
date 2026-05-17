@@ -24,8 +24,8 @@ particular defect was introduced.  That is, it has the same defect
 isolation purpose as `git bisect`, but across a set of branches rather
 than along a linear branch.
 
-That is, traditional bisection (e.g. `git-bisect`, or a manual search based on it)
-searches for the commit containing a defect along a linear history:
+That is, traditional bisection (e.g. `git-bisect`, or a manual search based on
+the method it implements) searches for the commit containing a defect along a linear history:
 ```text
 A -- B -- C -- D -- E -- F
                ^
