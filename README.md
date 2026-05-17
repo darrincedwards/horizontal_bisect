@@ -58,7 +58,7 @@ This tool is expected to be most useful when:
 Since the general bisection principle is similar to that of linear ("vertical") bisection, the same rule
 of thumb applies: if you only need to find the bug in a set of two or three branches, the advantage will
 be slim, just as it would be in performing linear bisection on a set of two or three commits.  By ten
-or so branches, though, the "log_2" advantage should start to become noticeable (as in a linear search
+or so branches, though, the "log<sub>2</sub>" advantage should start to become noticeable (as in a linear search
 on a set of ten or more commits).
 
 Typical environments include:
@@ -179,7 +179,7 @@ A validation branch sp_a_BISECT_1_VALIDATE is constructed to verify
 this.
 
 With only three branches, there were still two tests that needed to be
-done.  As mentioned above, the advantage of bisection (log_2 of the
+done.  As mentioned above, the advantage of bisection (log<sub>2</sub> of the
 number of branches) will be more obvious with a larger number of
 merged branches.  In the environment where this tool was originally
 developed, we had service packs that typically included ten or a dozen
