@@ -145,8 +145,9 @@ t003-add-func3
 f sp_a_BISECT_0_1
 ```
 
-A new branch sp_a_BISECT_0 is then constructed, and you are asked to test and again mark the
-result of the test:
+(The numbers in these branch names give the subset of feature branches included in the testing branch,
+based on the order they're listed in at the top of the control file.)  A new branch sp_a_BISECT_0 is then
+constructed, and you are asked to test and again mark the result of the test:
 
 ```text
 #merged: sp_a
@@ -165,15 +166,15 @@ A validation branch sp_a_BISECT_1_VALIDATE is constructed to verify
 this.
 
 With only three branches, there were still two tests that needed to be
-done.  The advantage of bisection (log_2 of the number of branches)
-will be more obvious with a larger number of merged branches.  In the
-environment where this tool was originally developed, we had service
-packs that typically included ten or a dozen feature branches.  The
-application was an internal web service with a relatively small number
-of pages; often a few of these branches touched the same page, and
-occasionally it was not immediately obvious which of those features
-had introduced a newly observed bug.  That is the sort of situation
-where it is hoped this tool might be of use.
+done.  As mentioned above, the advantage of bisection (log_2 of the
+number of branches) will be more obvious with a larger number of
+merged branches.  In the environment where this tool was originally
+developed, we had service packs that typically included ten or a dozen
+feature branches.  The application was an internal web service with a
+relatively small number of pages; often a few of these branches
+touched the same page, and occasionally it was not immediately obvious
+which of those features had introduced a newly observed bug.  That is
+the sort of situation for which this tool was designed.
 
 
 ## BUGS
