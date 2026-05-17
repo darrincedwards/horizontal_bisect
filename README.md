@@ -78,9 +78,9 @@ Typical environments might include:
 
 The first of these is planned to be addressed in a future release.
 The others correspond to similar assumptions of linear bisection
-(each commit represent a state that can be tested for exercising
-the bug or not, as opposed to an exception thrown before the bug
-location).
+(each commit represents a state that can be tested for exercising
+the bug or not, as opposed to an exception thrown before the code
+point where the bug occurs).
 
 
 ## Overview
