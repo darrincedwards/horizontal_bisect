@@ -20,7 +20,8 @@ The script horizontal_bisect.pl attempts to perform "horizontal"
 bisection; i.e., given an integration branch which merges together a
 set of component branches (feature branches, subsystem branches,
 vendor branches, etc.), find the one component branch in which a
-particular defect was introduced.
+particular defect was introduced.  That is, it works like `git bisect`,
+but across a set of branches rather than along a linear branch.
 
 
 ## Overview
