@@ -72,7 +72,7 @@ Typical environments might include:
 
 ## Current assumptions / limitations
 
-- The integration branch was created via an octopus merge
+- The integration branch was created via a **single octopus merge**
 - Component branches are independently testable
 - The defect is reproducible in automated or repeatable testing
 
