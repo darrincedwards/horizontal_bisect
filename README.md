@@ -44,6 +44,32 @@ branch out of an integration of several such branches:
 ```
 
 
+## When is this useful?
+
+This tool is expected to be most useful when:
+
+- An integration branch merges many independently developed feature branches
+- The integrated result exhibits a defect
+- Each feature branch is believed to be individually coherent (semantic "bug" rather than an exception)
+- Re-testing all the branch combinations manually would be expensive
+- Traditional git bisect is not (yet) appropriate, because the branch containing the bug needs to be determined
+  before a linear search can be performed
+
+Since the general bisection principle is similar to that of linear ("vertical") bisection, the same rule
+of thumb applies: if you only need to find the bug in a set of two or three branches, the advantage will
+be slim, just as it would be in performing linear bisection on a set of two or three commits.  By ten
+or so branches, though, the "log_2" advantage should start to become noticeable (as in a linear search
+on a set of ten or more commits).
+
+Typical environments include:
+
+- internal service-pack integration branches
+- monorepos
+- subsystem aggregation branches
+- vendor import aggregation,
+- release stabilization branches
+
+
 ## Overview
 
 The program is run iteratively, roughly similar to an interactive
