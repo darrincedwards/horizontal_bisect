@@ -3,39 +3,11 @@ use strict;
 use warnings;
 
 # Copyright 2026, Darrin C. Edwards, darrin.c.edwards@gmail.com.
-# Free to use and redistribute.  No warantee for any purpose.
+# Free to use and redistribute.  No warranty for any purpose.
 # If a modified copy is distributed, please modify the name of the file and include author information here.
 
-# Bisection is a well-known tool for locating the commit within a linear
-# history (including git, within a single branch with no merges) in which a
-# defect was introduced. In a (linear) history of a hundred commits,
-# such a defect can be located by checking out and testing only six or
-# seven commits.
-
-# This script attempts to perform "horizontal" bisection; i.e., given a branch
-# which merges together a set of component branches, find the one component branch
-# in which a particular defect is introduced.
-
-# The program is run iteratively; the first time it needs two arguments, the "merged"
-# branch being bisected, and the "base" branch on which the components of the merged branch
-# were based (usually the preceding "service pack").  After that it is run with no arguments,
-# getting the information from the control file horizontal_bisect_control.txt.
-
-# Each time it is run, the program selects the next appropriate subset of the component
-# branches for testing, constructs a new branch merging this subset of branches together,
-# and appends the test branch name to the control file.
-# (If files were modified that require an extra step, like recompilation, a message to that effect
-# is generated; see NOTE: below.)  After running the test branch, the user
-# then edits the control file, placing a "p" or "pass" in front of the test branch name
-# if the defect is not exhibited, and "f" or "fail" if it is.  (The test result indicators
-# are not case sensitive.)
-
-# Eventually such a test branch will be constructed with only one of the original
-# component branches in it; this will result in a single branch containing the defect,
-# and a validation branch containing all the other component branches is constructed to
-# verify that the defect only occurs in that single branch.  (If not, the defect is presumably
-# caused by some interaction among the branches, or there are multiple defects among the
-# merged branches; more sophisticated debugging than simple bisection will be required.)
+# The latest verion of this script can be obtained at https://github.com/darrincedwards/horizontal_bisect
+# A README.md file is also there to provide more background information.
 
 # NOTE: The check_flagged_paths function allows you to list paths for which an extra
 # step, such as reconfiguration or recompilation, might be needed.  For example, in the
