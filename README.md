@@ -8,6 +8,13 @@
 
 Contributors: Please clone the repo and check out your new branch from **development**.
 
+`horizontal_bisect.pl` is a Perl utility for isolating which component
+("feature") branch introduced a defect into an integration branch in a
+git repository.  It applies a branch-level analogue of binary search /
+`git bisect` across component branches rather than along commits in a linear
+history.
+
+
 ## Background
 
 Bisection is a well-known tool for locating the commit within a linear
@@ -34,7 +41,7 @@ A -- B -- C -- D -- E -- F
 ```
 
 Horizontal bisection, by contrast, searches for the branch containing a new
-branch out of an integration of several such branches:
+defect within an integration of several such branches:
 ```text
           integration
          /     |    \
