@@ -2,8 +2,8 @@
 
 - Repository: https://github.com/darrincedwards/horizontal_bisect
 - Files:
-  - horizontal_bisect.pl
-  - README.md
+  - `horizontal_bisect.pl`
+  - `README.md`
 - Copyright: see copyright notice in horizontal_bisect.pl
 
 Contributors: Please clone the repo and check out your new branch from **development**.
@@ -16,16 +16,17 @@ which a defect was introduced. In a linear history of a hundred
 commits, such a defect can be located by checking out and testing only
 six or seven commits.
 
-The script horizontal_bisect.pl attempts to perform "horizontal"
+The script `horizontal_bisect.pl` attempts to perform "horizontal"
 bisection; i.e., given an integration branch which merges together a
 set of component branches (feature branches, subsystem branches,
 vendor branches, etc.), find the one component branch in which a
-particular defect was introduced.  That is, it has the same defect
-isolation purpose as `git bisect`, but across a set of branches rather
-than along a linear branch.
+particular defect was introduced.
 
-That is, traditional bisection (e.g. `git-bisect`, or a manual search based on
-the method it implements) searches for the commit containing a defect along a linear history:
+It has the same defect isolation purpose as `git bisect`, but across a
+set of branches rather than along a linear branch.  That is,
+traditional bisection (e.g. `git-bisect`, or a manual search based on
+the method it implements) searches for the commit containing a defect
+along a linear history:
 ```text
 A -- B -- C -- D -- E -- F
                ^
@@ -90,9 +91,11 @@ rebase in git.  The first time it is run, it needs two arguments, the
 "merged" branch being bisected, and the "base" branch from which the
 components of the merged branch diverged (usually the current version
 of the development branch that the integration branch under
-examination will be merged into; or a previous "service pack", etc.).
+examination needs to be merged into; or a previous "service pack", etc.).
 After that it is run with no arguments, getting the information from
-the control file horizontal_bisect_control.txt.
+the control file horizontal_bisect_control.txt.  (The name and path
+of this file can be set by the user, by editing the `$control_filename`
+variable defined at the top of `horizontal_bisect.pl`.)
 
 Each time it is run, the program
 - selects another subset of the component branches for testing
@@ -100,7 +103,9 @@ Each time it is run, the program
 - and appends the new test branch name to the control file.
 
 (If files were modified that require an extra step, like
-recompilation, a message to that effect is generated.)  After running
+recompilation, a message to that effect is generated.  The paths that need such
+flagging can be controlled by the user with the `@flagged_paths` variable
+defined at the top of `horizontal_bisect.pl`.)  After running
 the test branch, the user then edits the control file, placing a `p`
 or `pass` in front of the test branch name if the defect is not
 exhibited, and `f` or `fail` if it is.  (The test result indicators
@@ -118,8 +123,8 @@ simple bisection will be required.)
 
 ## Example
 
-Suppose we have a branch sp_a, that merges together three component branches
-t001-add-func1, t002-add-func2, and t003-add-func3.  The history currently
+Suppose we have a branch `sp_a`, that merges together three component branches
+`t001-add-func1`, `t002-add-func2`, and `t003-add-func3`.  The history currently
 looks like:
 
 ```text
@@ -134,19 +139,19 @@ looks like:
 * 0d00b09 (main) initial commit
 ```
 
-A defect is found in running sp_a.  Which branch introduced it?
+A defect is found in running `sp_a` that does not occur in `development`.  Which branch introduced it?
 
 ```bash
 horizontal_bisect.pl sp_a development
 ```
 
-This will create a branch sp_a_BISECT_0_1 to be tested, merging t001-add-func1 and t002-add-func2.
-It will also generate a file horizontal_bisect_control.txt, the last line of which
-will be a line with the test branch name sp_a_BISECT_0_1.
+This will create a branch `sp_a_BISECT_0_1` to be tested, merging `t001-add-func1` and `t002-add-func2`.
+It will also generate a file `horizontal_bisect_control.txt`, the last line of which
+will be a line with the test branch name `sp_a_BISECT_0_1`.
 
 After testing, that file is edited, and `pass` or `fail` (or just `p` or `f`) are added to the
 front of the line with the branch name.  Suppose this branch does fail the test; then the
-horizontal_bisect_control.txt should, after you mark it, look like:
+`horizontal_bisect_control.txt` should, after you mark it, look like:
 
 ```text
 #merged: sp_a
@@ -159,7 +164,7 @@ f sp_a_BISECT_0_1
 ```
 
 (The numbers in these branch names give the subset of feature branches included in the testing branch,
-based on the order they're listed in at the top of the control file.)  A new branch sp_a_BISECT_0 is then
+based on the order they're listed in at the top of the control file.)  A new branch `sp_a_BISECT_0` is then
 constructed, and you are asked to test and again mark the result of the test:
 
 ```text
@@ -173,9 +178,9 @@ f sp_a_BISECT_0_1
 p sp_a_BISECT_0
 ```
 
-Since the combination of t001-add-func1 and t002-add-func2 failed, and
-t001-add-func1 passed, the bug is expected to occur in t002-add-func2.
-A validation branch sp_a_BISECT_1_VALIDATE is constructed to verify
+Since the combination of `t001-add-func1` and `t002-add-func2` failed, and
+`t001-add-func1` passed, the bug is expected to occur in `t002-add-func2`.
+A validation branch `sp_a_BISECT_1_VALIDATE` is constructed to verify
 this.
 
 With only three branches, there were still two tests that needed to be
