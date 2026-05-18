@@ -51,7 +51,7 @@ This tool is expected to be most useful when:
 
 - An integration branch merges many independently developed feature branches
 - The integrated result exhibits a defect
-- Each feature branch is believed to be individually coherent (the bug being sought, not an unrelated exception)
+- Each feature branch is believed to be individually coherent (has the bug being sought or not, without an unrelated exception)
 - Re-testing all the branch combinations manually would be expensive
 - Traditional git bisect is not (yet) appropriate, because the branch containing the bug needs to be determined
   before a linear search can be performed
