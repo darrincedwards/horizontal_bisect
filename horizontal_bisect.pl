@@ -64,6 +64,9 @@ my %result;
 
 if (defined $source_branch{'merged'} && defined $source_branch{'base'}) {
   my $merge_msg = `git log $source_branch{'merged'} -n 1 --oneline --grep='Merge'`;
+  if (!$merge_msg) {
+    die "No merge commits found on $source_branch{'merged'}, aborting."
+  }
   @branches = $merge_msg =~ /'(.*?)'/g;
 
   @index{@branches}  = 0..$#branches;
