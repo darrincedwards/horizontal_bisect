@@ -53,6 +53,10 @@ if (@ARGV && ($ARGV[0] eq '-h' || $ARGV[0] eq '--help')) {
   exit;
 }
 
+if (!(-e '.git' && -d _)) {
+  die "$progname needs to be run in the root of a git repository, but no .git directory was found.\n";
+}
+
 @source_branch{@source_types} = @ARGV;
 my @branches;
 my %index;
