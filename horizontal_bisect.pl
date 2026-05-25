@@ -200,6 +200,13 @@ Ready to test for defect in component branches of $new_test_branch.
 EOM
   }
 
+  my $branch_exists = `git branch --list '$new_test_branch'`;
+  if ($branch_exists) {
+    die <<EOD;
+The branch '$new_test_branch' already exists, most likely from a previous run of this program.
+Please remove this and related branches before rerunning.
+EOD
+  }
   system('git', 'checkout', '-b', $new_test_branch, $source_branch{'base'});
   system('git', 'merge', @new_test_set);
   print $message;
