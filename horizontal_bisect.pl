@@ -69,6 +69,10 @@ if (defined $source_branch{'merged'} && defined $source_branch{'base'}) {
   }
   @branches = $merge_msg =~ /'(.*?)'/g;
 
+  if (!@branches) {
+    die "Unable to parse branch names from the merge commit:\n\n$merge_msg\nAborting.\n";
+  }
+
   @index{@branches}  = 0..$#branches;
   @result{@branches} = (FAIL) x @branches;
 
