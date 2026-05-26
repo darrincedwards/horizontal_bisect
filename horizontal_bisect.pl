@@ -53,6 +53,10 @@ if (@ARGV && ($ARGV[0] eq '-h' || $ARGV[0] eq '--help')) {
   exit;
 }
 
+if (!(-e '.git' && -d _)) {
+  die "$progname needs to be run in the root of a git repository, but no .git directory was found.\n";
+}
+
 @source_branch{@source_types} = @ARGV;
 my @branches;
 my %index;
@@ -60,9 +64,16 @@ my %result;
 
 if (defined $source_branch{'merged'} && defined $source_branch{'base'}) {
   my $merge_msg = `git log $source_branch{'merged'} -n 1 --oneline --grep='Merge'`;
+  if (!$merge_msg) {
+    die "No merge commits found on $source_branch{'merged'}, aborting."
+  }
   @branches = $merge_msg =~ /'(.*?)'/g;
 
-  @index{@branches}   = 0..$#branches;
+  if (!@branches) {
+    die "Unable to parse branch names from the merge commit:\n\n$merge_msg\nAborting.\n";
+  }
+
+  @index{@branches}  = 0..$#branches;
   @result{@branches} = (FAIL) x @branches;
 
   open my $control_file, '>', $control_filename;
@@ -90,7 +101,7 @@ EOF
     push @branches, $_;
   }
 
-  @index{@branches}   = 0..$#branches;
+  @index{@branches}  = 0..$#branches;
   @result{@branches} = (FAIL) x @branches;
 
   # second segment is the bisecting branches that have been attempted so far, each preceded by 'pass' or 'fail'
@@ -126,25 +137,14 @@ if (@current_set == 1) {
   my $defect_branch = $current_set[0];
   my @complement = grep {$_ ne $defect_branch} @branches;
   my $validation_branch = make_branch_name($defect_branch) . '_VALIDATE';
-  system('git', 'checkout', '-b', $validation_branch, $source_branch{'base'});
-  system('git', 'merge', @complement);
-  print <<EOF;
-Defect appears to be in branch $defect_branch.
-A validation branch $validation_branch has been constructed to verify the defect (or an unrelated one) does not occur outside the defect branch.
-EOF
-  check_flagged_paths($validation_branch);
+  create_test_branch($validation_branch, @complement);
   exit;
 }
 my $new_test_size = int(@current_set / 2 + 0.5);
 my @new_test_set = @current_set[0..$new_test_size-1];
 
 my $new_test_branch = make_branch_name(@new_test_set);
-system('git', 'checkout', '-b', $new_test_branch, $source_branch{'base'});
-system('git', 'merge', @new_test_set);
-print <<EOF;
-Ready to test for defect in component branches of $new_test_branch.
-EOF
-check_flagged_paths($new_test_branch);
+create_test_branch($new_test_branch, @new_test_set);
 
 open my $control_file, '>>', $control_filename;
 print $control_file "$new_test_branch\n";
@@ -181,4 +181,34 @@ sub check_flagged_paths {
       print "Flagged path '$flagged_path' was modified in branch $branch; check for steps such as recompilation before testing.\n";
     }
   }
+}
+
+sub create_test_branch {
+  my $new_test_branch = shift @_;
+  my @new_test_set = @_;
+
+  my $message;
+  if ($new_test_branch =~ /_(\d+)_VALIDATE$/) {
+    my $defect_branch = $branches[$1];
+    $message = <<EOM;
+Defect appears to be in branch $defect_branch.
+A validation branch $new_test_branch has been constructed to verify the defect (or an unrelated one) does not occur outside the defect branch.
+EOM
+  } else {
+    $message = <<EOM;
+Ready to test for defect in component branches of $new_test_branch.
+EOM
+  }
+
+  my $branch_exists = `git branch --list '$new_test_branch'`;
+  if ($branch_exists) {
+    die <<EOD;
+The branch '$new_test_branch' already exists, most likely from a previous run of this program.
+Please remove this and related branches before rerunning.
+EOD
+  }
+  system('git', 'checkout', '-b', $new_test_branch, $source_branch{'base'});
+  system('git', 'merge', @new_test_set);
+  print $message;
+  check_flagged_paths($new_test_branch);
 }
