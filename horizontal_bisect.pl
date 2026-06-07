@@ -94,12 +94,16 @@ EOF
   # first segment is the list of component branches in the merged branch
   while (<$control_file>) {
     chomp;
-    if (/^#(\w+): (.*)$/) {
-      $source_branch{$1} = $2 if exists $source_branch{$1};
+    next if /^#/;
+    last if /^\s*$/;
+    if (/^(\w+): (.*)$/) {
+      if (exists $source_branch{$1}) {
+	$source_branch{$1} = $2;
+      }	else {
+	push @branches, $2;
+      }
       next;
     }
-    last if /^$/;
-    push @branches, $_;
   }
 
   @index{@branches}  = 0..$#branches;
@@ -108,6 +112,7 @@ EOF
   # second segment is the bisecting branches that have been attempted so far, each preceded by 'pass' or 'fail'
   while (my $line = <$control_file>) {
     chomp($line);
+    next if $line =~ /^#/;
     my ($result, $branch) = split(' ', $line, 2);
 
     my $flag = lc(substr($result, 0, 1));
