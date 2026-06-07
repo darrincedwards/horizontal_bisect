@@ -78,9 +78,10 @@ if (defined $source_branch{'merged'} && defined $source_branch{'base'}) {
 
   open my $control_file, '>', $control_filename;
   print $control_file <<EOF;
-@{[join("\n", map {"#$_: $source_branch{$_}"} @source_types)]}
-@{[join("\n", @branches)]}
+@{[join("\n", map {"$_: $source_branch{$_}"} @source_types)]}
+@{[join("\n", map {"$_: $branches[$_]"} (0..$#branches))]}
 
+# After testing, edit the last line below by adding pass (or just p) or fail (or just f), and then a space, before the branch name.
 EOF
   close $control_file;
 } else {
